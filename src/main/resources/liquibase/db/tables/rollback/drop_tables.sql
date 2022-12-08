@@ -1,0 +1,2 @@
+DROP TABLE IF EXISTS carEntities;
+DROP TABLE IF EXISTS engineEntities;

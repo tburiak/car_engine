@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS engine (
+  engine_id INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(50),
+  PRIMARY KEY (engine_id)
+);
