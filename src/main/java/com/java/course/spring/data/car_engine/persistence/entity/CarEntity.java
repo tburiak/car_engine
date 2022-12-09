@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 @Builder
+@ToString
 public class CarEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,13 +18,4 @@ public class CarEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "car_engine_id")
     private EngineEntity engineEntity;
-
-    public CarEntity(String title) {
-        this.title = title;
-    }
-
-    public CarEntity(String title, EngineEntity engineEntity) {
-        this.title = title;
-        this.engineEntity = engineEntity;
-    }
 }

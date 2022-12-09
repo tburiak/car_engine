@@ -44,7 +44,5 @@ public class CarEngineApplication implements CommandLineRunner {
 			carEntities.add(CarEntity.builder().title("Car_" + UUID.randomUUID()).build());
 		}
 		carRepository.saveAll(carEntities);
-
-
 	}
 }
