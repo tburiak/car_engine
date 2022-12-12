@@ -96,9 +96,7 @@ public class DefaultVehicleService implements VehicleService {
     }
 
     private boolean isEngineAvailable(EngineEntity engine) {
-        return carRepository.findAll().stream()
-                .filter(carEntity -> !Objects.isNull(carEntity.getEngineEntity()))
-                .noneMatch(carEntity -> carEntity.getEngineEntity().getId() == engine.getId());
+        return carRepository.findByEngineEntityId(engine.getId()).isEmpty();
     }
 
 }
