@@ -59,7 +59,20 @@ public class VehicleController {
         return vehicleService.getEngines();
     }
 
+    @DeleteMapping(value = "car/{carId}")
+    public void deleteCarById(@PathVariable int carId) {
+        vehicleService.deleteCarById(carId);
+    }
 
+    @DeleteMapping(value = "engine/{engineId}")
+    public void deleteEngineById(@PathVariable int engineId) {
+        vehicleService.deleteEngineById(engineId);
+    }
+
+    @GetMapping(value = "cars/no-engine")
+    public List<CarEntity> getNoEngineCars() {
+        return vehicleService.getNoEngineCars();
+    }
 
 
 }

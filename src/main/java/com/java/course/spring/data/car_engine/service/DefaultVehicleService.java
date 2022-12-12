@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -34,7 +35,7 @@ public class DefaultVehicleService implements VehicleService {
         CarEntity car = CarEntity.builder()
                 .title(carRequest.getTitle())
                 .build();
-        log.info("The car is created:{}",carRepository.save(car));
+        log.info("The noEngine car is created:{}", carRepository.save(car));
     }
 
     @Override
@@ -45,7 +46,7 @@ public class DefaultVehicleService implements VehicleService {
         CarEntity car = CarEntity.builder()
                 .engineEntity(engine).title(carEngineRequest.getTitle())
                 .build();
-        log.info("The car is created:{}",carRepository.save(car));
+        log.info("The car with new engine is created:{}", carRepository.save(car));
     }
 
     @Override
@@ -56,17 +57,42 @@ public class DefaultVehicleService implements VehicleService {
                     CarEntity car = CarEntity.builder()
                             .engineEntity(engine).title(carRequest.getTitle())
                             .build();
-                    log.info("The car is created:{}", carRepository.save(car));
+                    log.info("The car with existing engine is created: {}", carRepository.save(car));
                 }, () -> {
-                    log.error("No available engine found by id: {}", engineId);
-                    throw new IllegalArgumentException();
+                    String errorMessage = String.format("No available engine found by id: %s", engineId);
+                    log.error(errorMessage);
+                    throw new IllegalArgumentException(errorMessage);
                 });
     }
 
     @Override
     public void createEngine(EngineRequest engineRequest) {
         EngineEntity engine = EngineEntity.builder().title(engineRequest.getTitle()).build();
-        log.info("The engine is created: {}",engineRepository.save(engine));
+        log.info("The engine is created: {}", engineRepository.save(engine));
+    }
+
+    @Override
+    public void deleteCarById(int carId) {
+        carRepository.deleteById(carId);
+        log.info("The car with id {} is deleted", carId);
+    }
+
+    @Override
+    public void deleteEngineById(int engineId) {
+        carRepository.findByEngineEntityId(engineId)
+                .ifPresentOrElse(carEntity -> {
+                    carEntity.setEngineEntity(null);
+                    carRepository.save(carEntity);
+                    engineRepository.deleteById(engineId);
+                }, () -> engineRepository.deleteById(engineId));
+        log.info("The engine with id {} is deleted", engineId);
+    }
+
+    @Override
+    public List<CarEntity> getNoEngineCars() {
+        return carRepository.findAll().stream()
+                .filter(car -> Objects.isNull(car.getEngineEntity()))
+                .collect(Collectors.toList());
     }
 
     private boolean isEngineAvailable(EngineEntity engine) {

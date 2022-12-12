@@ -15,4 +15,10 @@ public interface VehicleService {
     void createCarWithNewEngine(CarEngineRequest carEngineRequest);
     void createCarWithExistingEngine(int engineId, CarRequest carRequest);
     void createEngine(EngineRequest engineRequest);
+
+    void deleteCarById(int carId);
+
+    void deleteEngineById(int engineId);
+
+    List<CarEntity> getNoEngineCars();
 }
