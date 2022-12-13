@@ -21,4 +21,6 @@ public interface VehicleService {
     void deleteEngineById(int engineId);
 
     List<CarEntity> getNoEngineCars();
+
+    void updateCarWithEngine(int carId, CarEngineRequest carEngineRequest);
 }

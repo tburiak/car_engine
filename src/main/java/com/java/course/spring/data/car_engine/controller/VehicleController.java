@@ -74,5 +74,10 @@ public class VehicleController {
         return vehicleService.getNoEngineCars();
     }
 
+    @PutMapping(value = "car/{carId}/engine")
+    public void updateCarWithEngine(@PathVariable int carId, @RequestBody CarEngineRequest carEngineRequest) {
+        vehicleService.updateCarWithEngine(carId, carEngineRequest);
+    }
+
 
 }

@@ -95,6 +95,20 @@ public class DefaultVehicleService implements VehicleService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void updateCarWithEngine(int carId, CarEngineRequest carEngineRequest) {
+        CarEntity carToUpdate = carRepository.getReferenceById(carId);
+        EngineEntity engineToUpdate = engineRepository.getReferenceById(carToUpdate.getEngineEntity().getId());
+        engineToUpdate.setTitle(carEngineRequest.getEngine().getTitle());
+        engineRepository.save(engineToUpdate);
+        log.info("The engine with id {} is updated", engineToUpdate.getId());
+
+        carToUpdate.setEngineEntity(engineToUpdate);
+        carToUpdate.setTitle(carEngineRequest.getTitle());
+        carRepository.save(carToUpdate);
+        log.info("The car with id {} is updated", carToUpdate.getId());
+    }
+
     private boolean isEngineAvailable(EngineEntity engine) {
         return carRepository.findByEngineEntityId(engine.getId()).isEmpty();
     }
