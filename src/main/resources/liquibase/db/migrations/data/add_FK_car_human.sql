@@ -1,0 +1,2 @@
+ALTER TABLE car ADD COLUMN human_id INT DEFAULT NULL;
+ALTER TABLE car ADD CONSTRAINT fk_human_id FOREIGN KEY (human_id) REFERENCES human(human_id);

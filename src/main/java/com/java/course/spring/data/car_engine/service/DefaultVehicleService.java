@@ -3,10 +3,13 @@ package com.java.course.spring.data.car_engine.service;
 import com.java.course.spring.data.car_engine.model.CarEngineRequest;
 import com.java.course.spring.data.car_engine.model.CarRequest;
 import com.java.course.spring.data.car_engine.model.EngineRequest;
+import com.java.course.spring.data.car_engine.model.HumanRequest;
 import com.java.course.spring.data.car_engine.persistence.entity.CarEntity;
 import com.java.course.spring.data.car_engine.persistence.entity.EngineEntity;
+import com.java.course.spring.data.car_engine.persistence.entity.HumanEntity;
 import com.java.course.spring.data.car_engine.persistence.repository.CarRepository;
 import com.java.course.spring.data.car_engine.persistence.repository.EngineRepository;
+import com.java.course.spring.data.car_engine.persistence.repository.HumanRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,8 +21,10 @@ import java.util.List;
 @Slf4j
 @Service
 public class DefaultVehicleService implements VehicleService {
+    private final HumanRepository humanRepository;
 
     private final CarRepository carRepository;
+
     private final EngineRepository engineRepository;
 
     public List<CarEntity> getCars() {
@@ -90,7 +95,7 @@ public class DefaultVehicleService implements VehicleService {
 
     @Override
     public List<CarEntity> getNoEngineCars() {
-        return carRepository.findNoEngineCar();
+        return carRepository.findByEngineEntityIsNull();
     }
 
     @Override
@@ -105,6 +110,44 @@ public class DefaultVehicleService implements VehicleService {
         carToUpdate.setTitle(carEngineRequest.getTitle());
         carRepository.save(carToUpdate);
         log.info("The car with id {} is updated", carToUpdate.getId());
+    }
+
+    @Override
+    @Transactional
+    public void addExistingCarToExistingHuman(int carId, int humanId) {
+        CarEntity car = carRepository.getReferenceById(carId);
+        HumanEntity human = humanRepository.getReferenceById(humanId);
+        car.setHuman(human);
+        carRepository.save(car);
+    }
+
+    @Override
+    public List<HumanEntity> getHumans() {
+        return humanRepository.findAll();
+    }
+
+    @Override
+    public void deleteHumanById(int humanId) {
+        humanRepository.deleteById(humanId);
+    }
+
+    @Override
+    public List<HumanEntity> getNoCarHumans() {
+        return humanRepository.findAllHumanWithoutCar();
+    }
+
+    @Override
+    @Transactional
+    public void updateHumanById(int humanId, HumanRequest humanRequest) {
+        HumanEntity humanToUpdate = humanRepository.getReferenceById(humanId);
+        humanToUpdate.setFirstName(humanRequest.getFirstName());
+        humanRepository.save(humanToUpdate);
+    }
+
+    @Override
+    public void createHuman(HumanRequest humanRequest) {
+        HumanEntity humanToCreate = HumanEntity.builder().firstName(humanRequest.getFirstName()).build();
+        humanRepository.save(humanToCreate);
     }
 
     private boolean isEngineAvailable(EngineEntity engine) {

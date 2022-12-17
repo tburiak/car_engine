@@ -6,6 +6,7 @@
 
     <!--initial-->
     <include file="changelog-initial.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/migration-to-version-01.xml" relativeToChangelogFile="true"/>
     <!--migrations-->
 
 </databaseChangeLog>

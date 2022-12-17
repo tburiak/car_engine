@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyrights 2021 Playtika Ltd., all rights reserved to Playtika Ltd.
+ privacy+e17bb14d-edc1-4d26-930d-486fcc1ab8fe@playtika.com
+-->
+
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="version-01" author="Taras Buriak">
+        <sql>set foreign_key_checks = 0;</sql>
+
+        <sqlFile path="/data/create_table_human.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/data/add_FK_car_human.sql" relativeToChangelogFile="true"/>
+
+        <sql>set foreign_key_checks = 1;</sql>
+
+    </changeSet>
+
+</databaseChangeLog>

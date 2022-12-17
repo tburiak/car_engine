@@ -3,8 +3,10 @@ package com.java.course.spring.data.car_engine.controller;
 import com.java.course.spring.data.car_engine.model.CarEngineRequest;
 import com.java.course.spring.data.car_engine.model.CarRequest;
 import com.java.course.spring.data.car_engine.model.EngineRequest;
+import com.java.course.spring.data.car_engine.model.HumanRequest;
 import com.java.course.spring.data.car_engine.persistence.entity.CarEntity;
 import com.java.course.spring.data.car_engine.persistence.entity.EngineEntity;
+import com.java.course.spring.data.car_engine.persistence.entity.HumanEntity;
 import com.java.course.spring.data.car_engine.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +51,12 @@ public class VehicleController {
         return ResponseEntity.ok("The car with existing engine is created");
     }
 
+    @PostMapping(value = "/car/{carId}/human/{humanId}")
+    public ResponseEntity<String> addExistingCarToExistingHuman(@PathVariable int carId, @PathVariable int humanId) {
+        vehicleService.addExistingCarToExistingHuman(carId, humanId);
+        return ResponseEntity.ok("The existing car is added to existing human");
+    }
+
     @PostMapping(value = "/engine")
     public ResponseEntity<String> createEngine(@RequestBody @Valid EngineRequest engineRequest) {
         log.info("Creating engine : {}", engineRequest);
@@ -65,7 +73,6 @@ public class VehicleController {
     public ResponseEntity<String> deleteCarById(@PathVariable int carId) {
         vehicleService.deleteCarById(carId);
         return ResponseEntity.ok("The car is deleted");
-
     }
 
     @DeleteMapping(value = "engine/{engineId}")
@@ -85,5 +92,29 @@ public class VehicleController {
         return ResponseEntity.ok("The car is updated");
     }
 
+    @GetMapping(value = "humans")
+    public List<HumanEntity> getHumans() {return vehicleService.getHumans();}
 
+    @GetMapping(value = "humans/no-car")
+    public List<HumanEntity> getNoCarHuman() {
+        return vehicleService.getNoCarHumans();
+    }
+
+    @PostMapping(value = "human")
+    public ResponseEntity<String> createHuman(@RequestBody HumanRequest humanRequest) {
+        vehicleService.createHuman(humanRequest);
+        return ResponseEntity.ok("The human is created");
+    }
+
+    @PutMapping(value = "human/{humanId}")
+    public ResponseEntity<String> updateHuman(@PathVariable int humanId, @RequestBody HumanRequest humanRequest) {
+        vehicleService.updateHumanById(humanId, humanRequest);
+        return ResponseEntity.ok("The human is updated");
+    }
+
+    @DeleteMapping(value = "human/{humanId}")
+    public ResponseEntity<String> deleteHumanById(@PathVariable int humanId) {
+        vehicleService.deleteHumanById(humanId);
+        return ResponseEntity.ok("The human is deleted");
+    }
 }
