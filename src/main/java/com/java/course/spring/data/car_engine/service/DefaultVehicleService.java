@@ -9,13 +9,14 @@ import com.java.course.spring.data.car_engine.persistence.repository.CarReposito
 import com.java.course.spring.data.car_engine.persistence.repository.EngineRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Slf4j
+@Service
 public class DefaultVehicleService implements VehicleService {
 
     private final CarRepository carRepository;
@@ -35,7 +36,7 @@ public class DefaultVehicleService implements VehicleService {
         CarEntity car = CarEntity.builder()
                 .title(carRequest.getTitle())
                 .build();
-        log.info("The noEngine car is created:{}", carRepository.save(car));
+        carRepository.save(car);
     }
 
     @Override
@@ -78,29 +79,26 @@ public class DefaultVehicleService implements VehicleService {
     }
 
     @Override
+    @Transactional
     public void deleteEngineById(int engineId) {
         carRepository.findByEngineEntityId(engineId)
-                .ifPresentOrElse(carEntity -> {
-                    carEntity.setEngineEntity(null);
-                    carRepository.save(carEntity);
-                    engineRepository.deleteById(engineId);
-                }, () -> engineRepository.deleteById(engineId));
+                .ifPresentOrElse(carEntity -> carEntity.setEngineEntity(null),
+                        () -> engineRepository.deleteById(engineId)
+                );
         log.info("The engine with id {} is deleted", engineId);
     }
 
     @Override
     public List<CarEntity> getNoEngineCars() {
-        return carRepository.findAll().stream()
-                .filter(car -> Objects.isNull(car.getEngineEntity()))
-                .collect(Collectors.toList());
+        return carRepository.findNoEngineCar();
     }
 
     @Override
+    @Transactional
     public void updateCarWithEngine(int carId, CarEngineRequest carEngineRequest) {
         CarEntity carToUpdate = carRepository.getReferenceById(carId);
         EngineEntity engineToUpdate = engineRepository.getReferenceById(carToUpdate.getEngineEntity().getId());
         engineToUpdate.setTitle(carEngineRequest.getEngine().getTitle());
-        engineRepository.save(engineToUpdate);
         log.info("The engine with id {} is updated", engineToUpdate.getId());
 
         carToUpdate.setEngineEntity(engineToUpdate);

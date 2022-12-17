@@ -15,7 +15,7 @@ public class CarEntity {
     @Column(name = "car_id")
     private int id;
     private String title;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval=true )
     @JoinColumn(name = "car_engine_id")
     private EngineEntity engineEntity;
 }

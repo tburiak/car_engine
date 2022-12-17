@@ -8,6 +8,7 @@ import com.java.course.spring.data.car_engine.persistence.entity.EngineEntity;
 import com.java.course.spring.data.car_engine.service.VehicleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,27 +32,28 @@ public class VehicleController {
     }
 
     @PostMapping(value = "/car")
-    public void createNoEngineCar(@RequestBody @Valid CarRequest carRequest) {
-        log.info("Creating no engine car : {}", carRequest);
+    public ResponseEntity<String> createNoEngineCar(@RequestBody @Valid CarRequest carRequest) {
         vehicleService.createNoEngineCar(carRequest);
+        return ResponseEntity.ok("The no engine car is created");
     }
 
     @PostMapping(value = "/car/engine")
-    public void createCarWithNewEngine(@RequestBody @Valid CarEngineRequest carEngineRequest) {
-        log.info("Creating car with new engine : {}", carEngineRequest);
+    public ResponseEntity<String> createCarWithNewEngine(@RequestBody @Valid CarEngineRequest carEngineRequest) {
         vehicleService.createCarWithNewEngine(carEngineRequest);
+        return ResponseEntity.ok("The car with new engine is created");
     }
 
     @PostMapping(value = "/car/engine/{engineId}")
-    public void createCarWithExistingEngine(@PathVariable int engineId, @RequestBody @Valid CarRequest carRequest) {
-        log.info("Creating car:{} with existing engine:{} ", carRequest, engineId);
+    public ResponseEntity<String> createCarWithExistingEngine(@PathVariable int engineId, @RequestBody @Valid CarRequest carRequest) {
         vehicleService.createCarWithExistingEngine(engineId, carRequest);
+        return ResponseEntity.ok("The car with existing engine is created");
     }
 
     @PostMapping(value = "/engine")
-    public void createEngine(@RequestBody @Valid EngineRequest engineRequest) {
+    public ResponseEntity<String> createEngine(@RequestBody @Valid EngineRequest engineRequest) {
         log.info("Creating engine : {}", engineRequest);
         vehicleService.createEngine(engineRequest);
+        return ResponseEntity.ok("The engine is created");
     }
 
     @GetMapping(value = "/engines")
@@ -60,13 +62,16 @@ public class VehicleController {
     }
 
     @DeleteMapping(value = "car/{carId}")
-    public void deleteCarById(@PathVariable int carId) {
+    public ResponseEntity<String> deleteCarById(@PathVariable int carId) {
         vehicleService.deleteCarById(carId);
+        return ResponseEntity.ok("The car is deleted");
+
     }
 
     @DeleteMapping(value = "engine/{engineId}")
-    public void deleteEngineById(@PathVariable int engineId) {
+    public ResponseEntity<String> deleteEngineById(@PathVariable int engineId) {
         vehicleService.deleteEngineById(engineId);
+        return ResponseEntity.ok("The engine is deleted");
     }
 
     @GetMapping(value = "cars/no-engine")
@@ -75,8 +80,9 @@ public class VehicleController {
     }
 
     @PutMapping(value = "car/{carId}/engine")
-    public void updateCarWithEngine(@PathVariable int carId, @RequestBody CarEngineRequest carEngineRequest) {
+    public ResponseEntity<String> updateCarWithEngine(@PathVariable int carId, @RequestBody CarEngineRequest carEngineRequest) {
         vehicleService.updateCarWithEngine(carId, carEngineRequest);
+        return ResponseEntity.ok("The car is updated");
     }
 
 
