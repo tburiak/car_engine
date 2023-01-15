@@ -6,7 +6,15 @@
 
     <!--initial-->
     <include file="changelog-initial.xml" relativeToChangelogFile="true"/>
+    <!--initial-->
+
+    <!--migrations-->
     <include file="migrations/migration-to-version-01.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/migration-to-version-02.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/migration-to-version-03.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/migration-to-version-04.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/migration-to-version-05.xml" relativeToChangelogFile="true"/>
+    <include file="migrations/migration-to-version-06.xml" relativeToChangelogFile="true"/>
     <!--migrations-->
 
 </databaseChangeLog>

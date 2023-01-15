@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="version-02" author="Taras Buriak">
+        <sql>set foreign_key_checks = 0;</sql>
+
+        <sqlFile path="/data/create_table_user.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/data/create_table_building.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="/data/create_table_user_registration.sql" relativeToChangelogFile="true"/>
+
+        <sql>set foreign_key_checks = 1;</sql>
+
+    </changeSet>
+
+</databaseChangeLog>

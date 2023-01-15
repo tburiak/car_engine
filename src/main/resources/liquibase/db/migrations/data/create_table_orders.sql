@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS orders (
+  order_id INT NOT NULL AUTO_INCREMENT,
+  status VARCHAR(50) NULL,
+  PRIMARY KEY (order_id)
+);

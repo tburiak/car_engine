@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS building1 (
+  building_id INT NOT NULL AUTO_INCREMENT,
+  address VARCHAR(50),
+  PRIMARY KEY (building_id)
+ );
+
+CREATE TABLE IF NOT EXISTS user1 (
+  user_id INT NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (user_id)
+ );
