@@ -35,7 +35,6 @@ public class TasksService {
         var taskToUpdate = tasksRepository.getReferenceById(taskId);
         var parent = tasksRepository.findById(taskRequest.getParentId()).orElseThrow();
         taskToUpdate.setParent(parent);
-        completeTaskWithSubtasks(taskToUpdate);
         tasksRepository.save(taskToUpdate);
     }
 
@@ -93,6 +92,11 @@ public class TasksService {
             }
         }
         task.setOrder(orderEntity);
+    }
+
+    public List<TaskEntity> getTasksByOrderId(int orderId) {
+        var order = ordersRepository.getReferenceById(orderId);
+        return order.getTasks();
     }
 
 }

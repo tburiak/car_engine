@@ -1,6 +1,5 @@
 package com.java.course.spring.data.car_engine.persistence.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,7 +22,6 @@ public class OrderEntity {
 
     private String status;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "order")
     List<TaskEntity> tasks;
 }

@@ -55,4 +55,9 @@ public class TasksController {
         return ResponseEntity.ok("The task is deleted");
     }
 
+    @GetMapping(value = "/orders/{orderId}/tasks")
+    public List<TaskEntity> getTasksByOrderId(@PathVariable int orderId) {
+        return tasksService.getTasksByOrderId(orderId);
+    }
+
 }

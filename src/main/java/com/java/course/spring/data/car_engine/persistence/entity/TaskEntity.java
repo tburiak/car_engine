@@ -23,14 +23,15 @@ public class TaskEntity {
 
     private String status;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "parent_id", referencedColumnName = "task_id")
     private TaskEntity parent;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "parent")
     private List<TaskEntity> subtasks;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "order_id")
     private OrderEntity order;
